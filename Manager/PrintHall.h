@@ -8,7 +8,7 @@
 #include "../PrintMenu.h"
 
 void printmenu(); // Assuming this is declared elsewhere
-
+void printfinal(void);
 void printhall()
 {
     Hall hall;
@@ -64,7 +64,7 @@ void printhall()
         printmenu();
         break;
     case 2:
-        printhall();
+        printfinal();
         break;
     default:
         return;

@@ -1,0 +1,33 @@
+Name: Do
+Row: 1
+Set per row: 1
+Number of categories: 1
+Category 1: A, Price: 1, Start row: 1, End row: 1
+Pit: 0
+H
+Time 0: Libre, Start concert: -1, End concert: -1
+Time 1: DODO, Start concert: 1, End concert: 2
+Time 2: Libre, Start concert: -1, End concert: -1
+Time 3: Libre, Start concert: -1, End concert: -1
+Time 4: Libre, Start concert: -1, End concert: -1
+Time 5: Libre, Start concert: -1, End concert: -1
+Time 6: Libre, Start concert: -1, End concert: -1
+Time 7: Libre, Start concert: -1, End concert: -1
+Time 8: Libre, Start concert: -1, End concert: -1
+Time 9: Libre, Start concert: -1, End concert: -1
+Time 10: Libre, Start concert: -1, End concert: -1
+Time 11: Libre, Start concert: -1, End concert: -1
+Time 12: Libre, Start concert: -1, End concert: -1
+Time 13: Libre, Start concert: -1, End concert: -1
+Time 14: Libre, Start concert: -1, End concert: -1
+Time 15: Libre, Start concert: -1, End concert: -1
+Time 16: Libre, Start concert: -1, End concert: -1
+Time 17: Libre, Start concert: -1, End concert: -1
+Time 18: Libre, Start concert: -1, End concert: -1
+Time 19: Libre, Start concert: -1, End concert: -1
+Time 20: Libre, Start concert: -1, End concert: -1
+Time 21: Libre, Start concert: -1, End concert: -1
+Time 22: Libre, Start concert: -1, End concert: -1
+Time 23: Libre, Start concert: -1, End concert: -1
+Number of concerts: 1
+Concert 1: Start: -1, End: -1, Artist: Libre

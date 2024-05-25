@@ -14,8 +14,7 @@ void reservedconcert()
     printf("Veuillez entrer le nom de la salle où vous voulez reserver un concert:\n");
     scanf("%49s", hallName);
 
-    Hall hall;
-    FILE *file = fopen(hallName, "rb");
+    FILE *file = fopen(hallName, "r");
     if (file == NULL)
     {
         printf("Impossible d'ouvrir le fichier %s\n", hallName);
@@ -23,110 +22,92 @@ void reservedconcert()
         return;
     }
 
-    if (fread(&hall, sizeof(Hall), 1, file) != 1)
+    Hall hall;
+    char line[1024];
+
+    // Read hall data from file
+    fgets(line, 1024, file);
+    sscanf(line, "Name: %s\n", hall.name);
+
+    fgets(line, 1024, file);
+    sscanf(line, "Row: %d\n", &hall.row);
+
+    fgets(line, 1024, file);
+    sscanf(line, "Set per row: %d\n", &hall.setPerRow);
+
+    fgets(line, 1024, file);
+    sscanf(line, "Number of categories: %d\n", &NumbCat);
+
+    for (int j = 0; j < NumbCat; j++)
     {
-        printf("Erreur de lecture des informations de la salle.\n");
-        fclose(file);
+        fgets(line, 1024, file);
+        sscanf(line, "Category %d: %s, Price: %d, Start row: %d, End row: %d\n",
+               &j, hall.seatCategorie[j], &hall.price[j], &hall.startRow[j], &hall.endRow[j]);
+    }
+
+    fgets(line, 1024, file);
+    sscanf(line, "Pit: %d\n", &hall.pit);
+
+    for (int r = 0; r < hall.row; r++)
+    {
+        fgets(line, 1024, file);
+        for (int j = 0; j < hall.setPerRow; j++)
+        {
+            hall.sieges[r * hall.setPerRow + j] = line[j];
+        }
+    }
+
+    fgets(line, 1024, file);
+    sscanf(line, "Number of concerts: %d\n", &hall.numConcerts);
+
+    for (int n = 0; n < hall.numConcerts; n++)
+    {
+        fgets(line, 1024, file);
+        sscanf(line, "Concert %d: Start: %d, End: %d, Artist: %s\n",
+               &n, &hall.time[n].startConcert, &hall.time[n].endConcert, hall.time[n].artistName);
+    }
+
+    //... rest of the code...
+
+    // Write updated hall data to file
+    file = fopen(hallName, "w");
+    if (file == NULL)
+    {
+        printf("Erreur d'ouverture du fichier pour sauvegarde.\n");
         return;
     }
 
-    printf("Nom de la salle : %s\n", hall.name);
-    printf("Nombre de concerts : %d\n", hall.numConcerts);
+    fprintf(file, "Name: %s\n", hall.name);
+    fprintf(file, "Row: %d\n", hall.row);
+    fprintf(file, "Set per row: %d\n", hall.setPerRow);
+    fprintf(file, "Number of categories: %d\n", NumbCat);
 
-    for (int i = 0; i < hall.numConcerts; i++)
+    for (int j = 0; j < NumbCat; j++)
     {
-        printf("Concert %d :\n", i + 1);
-        printf("  Artiste : %s\n", hall.time[i].artistName);
-        printf("  Heure de debut : %d\n", hall.time[i].startConcert);
-        printf("  Heure de fin : %d\n", hall.time[i].endConcert);
+        fprintf(file, "Category %d: %s, Price: %d, Start row: %d, End row: %d\n",
+                j + 1, hall.seatCategorie[j], hall.price[j], hall.startRow[j], hall.endRow[j]);
     }
 
-    printf("Voulez vous reserver un concert (1=oui,2=Non)\n");
-    int choice;
-    scanf("%d", &choice);
+    fprintf(file, "Pit: %d\n", hall.pit);
 
-    if (choice == 1)
+    for (int r = 0; r < hall.row; r++)
     {
-        printf("Quel concert voulez-vous reserver ? (Entrez le numero du concert)\n");
-        int concertChoice;
-        scanf("%d", &concertChoice);
-
-        if (concertChoice > 0 && concertChoice <= hall.numConcerts)
+        for (int j = 0; j < hall.setPerRow; j++)
         {
-            printf("Vous avez reserve le concert %d :\n", concertChoice);
-            printf("  Artiste : %s\n", hall.time[concertChoice - 1].artistName);
-            printf("  Heure de debut : %d\n", hall.time[concertChoice - 1].startConcert);
-            printf("  Heure de fin : %d\n", hall.time[concertChoice - 1].endConcert);
-
-            printf("Voici la disposition des sieges :\n");
-
-            int numSpaces = (72 - strlen("Scene")) / 2;
-
-            for (int i = 0; i < numSpaces; i++)
-            {
-                printf(" ");
-            }
-
-            printf("Scene\n");
-            printf("-------------------------------------------------------------------------\n");
-            int numSpacesSeats = (72 - (hall.setPerRow * 2)) / 2;
-
-            for (int r = 0; r < hall.row; r++)
-            {
-                for (int i = 0; i < numSpacesSeats; i++)
-                {
-                    printf(" ");
-                }
-
-                for (int s = 0; s < hall.setPerRow; s++)
-                {
-                    printf("\x1b[32mL \x1b[0m"); // L en vert
-                }
-                printf("\n");
-            }
-
-            printf("Legende :\n");
-            printf("  Categorie A : 50 euros\n");
-            printf("  Categorie B : 30 euros\n");
-            printf("  Categorie C : 20 euros\n");
-
-            printf("Combien de sieges voulez-vous reserver ?\n");
-            int numSeats;
-            scanf("%d", &numSeats);
-
-            for (int i = 0; i < numSeats; i++)
-            {
-                printf("Veuillez entrer le numero de la rangee pour le siege %d:\n", i + 1);
-                int row;
-                scanf("%d", &row);
-
-                printf("Veuillez entrer le numero du siege dans la rangee pour le siege %d:\n", i + 1);
-                int seat;
-                scanf("%d", &seat);
-
-                if (hall.sieges[(row - 1) * hall.setPerRow + (seat - 1)] == '1')
-                {
-                    hall.sieges[(row - 1) * hall.setPerRow + (seat - 1)] = '0';
-                    printf("Vous avez reserve le siege %d dans la rangee %d.\n", seat, row);
-                }
-                else
-                {
-                    printf("Desole, le siege %d dans la rangee %d est deja reserve.\n", seat, row);
-                    i--; // Ask for the seat again
-                }
-            }
+            fprintf(file, "%c", hall.sieges[r * hall.setPerRow + j]);
         }
-        else
-        {
-            printf("Choix de concert invalide.\n");
-        }
-
-        fclose(file);
+        fprintf(file, "\n");
     }
-    else
+
+    fprintf(file, "Number of concerts: %d\n", hall.numConcerts);
+
+    for (int n = 0; n < hall.numConcerts; n++)
     {
-        fclose(file);
+        fprintf(file, "Concert %d: Start: %d, End: %d, Artist: %s\n",
+                n + 1, hall.time[n].startConcert, hall.time[n].endConcert, hall.time[n].artistName);
     }
+
+    fclose(file);
 }
 
 #endif

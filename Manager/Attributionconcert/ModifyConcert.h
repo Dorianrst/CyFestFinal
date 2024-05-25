@@ -73,9 +73,24 @@ void modifyhall()
                 break;
             }
 
-            // Rewrite the hall in the file
+            // Positionner le curseur à l'endroit approprié
             fseek(file, -sizeof(Hall), SEEK_CUR);
-            fwrite(&hall, sizeof(Hall), 1, file);
+
+            // Écrire les données de `hall` en format texte
+            fprintf(file, "Nom de la salle: %s\n", hall.name);
+            fprintf(file, "Nombre de catégories: %d\n", MAXCATEGORIE);
+            for (int i = 0; i < MAXCATEGORIE; i++)
+            {
+                fprintf(file, "Catégorie %d: %s\n", i + 1, hall.seatCategorie[i]);
+            }
+            fprintf(file, "Nombre de rangées: %d\n", hall.row);
+            fprintf(file, "Sièges par rangée: %d\n", hall.setPerRow);
+            for (int i = 0; i < hall.numConcerts; i++)
+            {
+                fprintf(file, "Artiste %d: %s\n", i + 1, hall.time[i].artistName);
+                fprintf(file, "Heure de début: %d\n", hall.time[i].startConcert);
+                fprintf(file, "Heure de fin: %d\n", hall.time[i].endConcert);
+            }
 
             printf("Modification de la salle terminee.\n");
             fclose(file);

@@ -16,8 +16,8 @@ void managerlobby()
 
     int choice;
     printf("1: Creer une salle et ses concerts.\n");
-    printf("2: Modifier une salle\n ");
-    printf("3:Consulter les informations d'une salle\n");
+    printf("2: Modifier une salle\n");
+    printf("3: Consulter les informations d'une salle\n");
     printf("4: Retourner au menu.\n");
     printf("Taper le numero correspondant au choix pour choisir:\n");
     scanf("%d", &choice);

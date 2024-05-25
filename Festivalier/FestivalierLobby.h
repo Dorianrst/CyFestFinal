@@ -2,11 +2,12 @@
 #define FESTIVALIERLOBBY_H
 
 #include "../PrintMenu.h"
-#include "PrintHall.h"
+#include "Printfinal.h"
 #include "Reserved.h"
 
 #include <stdio.h>
 #include <stdlib.h>
+
 void festivalierlobby()
 {
     int choice;
@@ -18,7 +19,7 @@ void festivalierlobby()
     switch (choice)
     {
     case 1:
-        printhall();
+        printfinal();
         break;
 
     case 2:

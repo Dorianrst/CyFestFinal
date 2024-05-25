@@ -13,7 +13,7 @@ void deleteconcert()
 {
     Hall hall;
     char hallName[50];
-    printf("Veuillez entrer le nom de la salle où le concert doit être supprime:\n");
+    printf("Veuillez entrer le nom de la salle ou le concert doit être supprime:\n");
     scanf("%49s", hallName); // Limit input to prevent buffer overflow
 
     FILE *file = fopen(hallName, "r+b"); // Open the file in read/write binary mode
